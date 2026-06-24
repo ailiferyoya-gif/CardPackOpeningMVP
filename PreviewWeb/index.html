@@ -21,11 +21,15 @@
       <section id="pack-opening" class="screen" aria-labelledby="pack-opening-title">
         <button class="back-button" type="button" data-back-to="pack-selection">Back</button>
         <div class="opening-panel">
-          <div class="pack-art" aria-hidden="true">*</div>
-          <p class="eyebrow">Opening</p>
+          <div id="interactive-pack" class="pack-art" role="button" tabindex="0" aria-label="Hold the pack to charge it.">
+            <span id="tear-meter" class="tear-meter"></span>
+            <span id="pack-symbol">*</span>
+          </div>
+          <p id="stage-label" class="eyebrow">Hold to charge</p>
           <h2 id="pack-opening-title"></h2>
           <p id="pack-opening-subtitle" class="muted"></p>
-          <button id="open-pack-button" class="primary-button" type="button">Open Pack</button>
+          <div id="reveal-strip" class="reveal-strip" aria-live="polite"></div>
+          <button id="view-results-button" class="primary-button" type="button" hidden>View Full Results</button>
         </div>
       </section>
 

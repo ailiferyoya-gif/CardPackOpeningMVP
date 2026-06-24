@@ -33,6 +33,12 @@ const rarityColors = {
 
 let selectedPack = packs[0];
 let openedCards = [];
+let revealedCards = [];
+let stage = "idle";
+let pressTimer = null;
+let isPointerDown = false;
+let pointerStartX = 0;
+let tearProgress = 0;
 
 const screens = {
   selection: document.querySelector("#pack-selection"),
@@ -42,9 +48,12 @@ const screens = {
 
 const packList = document.querySelector("#pack-list");
 const resultList = document.querySelector("#result-list");
+const interactivePack = document.querySelector("#interactive-pack");
+const stageLabel = document.querySelector("#stage-label");
 const openingTitle = document.querySelector("#pack-opening-title");
 const openingSubtitle = document.querySelector("#pack-opening-subtitle");
-const openPackButton = document.querySelector("#open-pack-button");
+const revealStrip = document.querySelector("#reveal-strip");
+const viewResultsButton = document.querySelector("#view-results-button");
 
 function showScreen(screenName) {
   Object.values(screens).forEach((screen) => screen.classList.remove("is-active"));
@@ -58,10 +67,37 @@ function shuffle(items) {
 function openPack(pack) {
   selectedPack = pack;
   openedCards = [];
+  revealedCards = [];
+  tearProgress = 0;
   openingTitle.textContent = pack.name;
-  openingSubtitle.textContent = `Tap the button to open ${pack.cardsPerOpening} local dummy cards.`;
-  openPackButton.textContent = "Open Pack";
+  setStage("idle");
+  renderRevealStrip();
+  viewResultsButton.hidden = true;
   showScreen("opening");
+}
+
+function setStage(nextStage, payload = {}) {
+  stage = nextStage;
+
+  interactivePack.classList.toggle("is-charging", stage === "charging");
+  interactivePack.classList.toggle("is-tearing", stage === "tearing");
+  interactivePack.style.setProperty("--tear-progress", `${Math.round(tearProgress * 100)}%`);
+
+  const index = payload.index ?? 0;
+  const messages = {
+    idle: ["Hold to charge", "Long press the pack to build energy."],
+    charging: ["Charging", "Keep holding until the pack is ready."],
+    readyToTear: ["Ready to tear", "Swipe right across the pack to tear it open."],
+    tearing: ["Tearing", `Tearing ${Math.round(tearProgress * 100)}%. Keep swiping right.`],
+    opening: ["Opening", "The pack is opening. Cards will reveal one by one."],
+    revealing: ["Revealing", `Revealing card ${index + 1} of ${selectedPack.cardsPerOpening}.`],
+    completed: ["Completed", "All cards are revealed. You can inspect the full result list."]
+  };
+
+  const [label, message] = messages[stage];
+  stageLabel.textContent = label;
+  openingSubtitle.textContent = message;
+  interactivePack.setAttribute("aria-label", message);
 }
 
 function renderPacks() {
@@ -78,10 +114,28 @@ function renderPacks() {
         <p>${pack.subtitle}</p>
         <p>${pack.cardsPerOpening} cards</p>
       </span>
-      <span class="chevron" aria-hidden="true">›</span>
+      <span class="chevron" aria-hidden="true">&gt;</span>
     `;
     button.addEventListener("click", () => openPack(pack));
     packList.appendChild(button);
+  });
+}
+
+function renderRevealStrip(highlightedIndex = -1) {
+  revealStrip.innerHTML = "";
+
+  revealedCards.forEach((card, index) => {
+    const colors = rarityColors[card.rarity];
+    const item = document.createElement("article");
+    item.className = `mini-card${index === highlightedIndex ? " is-highlighted" : ""}`;
+    item.style.background = colors.background;
+    item.style.color = colors.color;
+    item.innerHTML = `
+      <span>${card.rarity}</span>
+      <strong>${card.name}</strong>
+      <small>${card.power}</small>
+    `;
+    revealStrip.appendChild(item);
   });
 }
 
@@ -108,14 +162,102 @@ function renderResults() {
   });
 }
 
-openPackButton.addEventListener("click", () => {
+function beginOpening() {
+  if (stage === "opening" || stage === "revealing" || stage === "completed") {
+    return;
+  }
+
   openedCards = shuffle(cards).slice(0, selectedPack.cardsPerOpening);
+  revealedCards = [];
+  setStage("opening");
+  window.setTimeout(() => revealCardAtIndex(0), 650);
+}
+
+function revealCardAtIndex(index) {
+  if (index >= openedCards.length) {
+    setStage("completed");
+    viewResultsButton.hidden = false;
+    return;
+  }
+
+  revealedCards = openedCards.slice(0, index + 1);
+  setStage("revealing", { index });
+  renderRevealStrip(index);
+  window.setTimeout(() => revealCardAtIndex(index + 1), 420);
+}
+
+function updateTearProgress(clientX) {
+  if (stage !== "readyToTear" && stage !== "tearing") {
+    return;
+  }
+
+  tearProgress = Math.min(Math.max((clientX - pointerStartX) / 120, 0), 1);
+  setStage("tearing");
+
+  if (tearProgress >= 1) {
+    beginOpening();
+  }
+}
+
+interactivePack.addEventListener("pointerdown", (event) => {
+  if (stage !== "idle" && stage !== "readyToTear" && stage !== "tearing") {
+    return;
+  }
+
+  event.preventDefault();
+  isPointerDown = true;
+  pointerStartX = event.clientX;
+  interactivePack.setPointerCapture(event.pointerId);
+
+  if (stage === "idle") {
+    setStage("charging");
+    pressTimer = window.setTimeout(() => setStage("readyToTear"), 750);
+  }
+});
+
+interactivePack.addEventListener("pointermove", (event) => {
+  if (!isPointerDown) {
+    return;
+  }
+
+  updateTearProgress(event.clientX);
+});
+
+interactivePack.addEventListener("pointerup", (event) => {
+  isPointerDown = false;
+  window.clearTimeout(pressTimer);
+
+  if (stage === "charging") {
+    setStage("idle");
+  } else if (stage === "tearing" && tearProgress < 1) {
+    setStage("readyToTear");
+  }
+
+  interactivePack.releasePointerCapture(event.pointerId);
+});
+
+interactivePack.addEventListener("pointercancel", () => {
+  isPointerDown = false;
+  window.clearTimeout(pressTimer);
+  if (stage === "charging" || stage === "tearing") {
+    setStage("readyToTear");
+  }
+});
+
+interactivePack.addEventListener("contextmenu", (event) => {
+  event.preventDefault();
+});
+
+viewResultsButton.addEventListener("click", () => {
   renderResults();
   showScreen("results");
 });
 
 document.querySelectorAll("[data-back-to]").forEach((button) => {
-  button.addEventListener("click", () => showScreen("selection"));
+  button.addEventListener("click", () => {
+    window.clearTimeout(pressTimer);
+    showScreen("selection");
+  });
 });
 
 renderPacks();

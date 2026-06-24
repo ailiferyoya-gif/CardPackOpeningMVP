@@ -22,6 +22,10 @@ button {
   font: inherit;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .app-shell {
   width: min(100%, 760px);
   min-height: 100vh;
@@ -95,7 +99,8 @@ h2 {
 
 .pack-card:focus-visible,
 .primary-button:focus-visible,
-.back-button:focus-visible {
+.back-button:focus-visible,
+.pack-art:focus-visible {
   outline: 3px solid #2563eb;
   outline-offset: 3px;
 }
@@ -134,7 +139,7 @@ h2 {
   display: grid;
   justify-items: center;
   gap: 14px;
-  padding: 42px 18px;
+  padding: 36px 18px;
   text-align: center;
 }
 
@@ -146,13 +151,44 @@ h2 {
   border-radius: 8px;
   background: linear-gradient(145deg, #4338ca, #14b8a6);
   color: #ffffff;
+  cursor: grab;
   font-size: 3rem;
+  overflow: hidden;
+  position: relative;
   box-shadow: 0 20px 38px rgba(67, 56, 202, 0.24);
+  touch-action: none;
+  transition: transform 180ms ease;
+  user-select: none;
+}
+
+.pack-art.is-charging {
+  transform: scale(1.04);
+}
+
+.pack-art.is-tearing {
+  transform: rotate(2deg);
+}
+
+.tear-meter {
+  background: rgba(255, 255, 255, 0.46);
+  display: block;
+  height: 3px;
+  left: 12px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--tear-progress, 0%);
+}
+
+#pack-symbol {
+  position: relative;
+  z-index: 1;
 }
 
 .muted {
   max-width: 34rem;
   color: #52606d;
+  min-height: 44px;
 }
 
 .primary-button,
@@ -176,6 +212,42 @@ h2 {
   background: rgba(31, 41, 51, 0.08);
   color: #1f2933;
   font-weight: 700;
+}
+
+.reveal-strip {
+  display: flex;
+  gap: 10px;
+  min-height: 132px;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 6px 2px;
+}
+
+.mini-card {
+  align-items: center;
+  border: 1px solid rgba(31, 41, 51, 0.14);
+  border-radius: 8px;
+  display: grid;
+  flex: 0 0 92px;
+  gap: 4px;
+  min-height: 116px;
+  padding: 8px;
+  text-align: center;
+}
+
+.mini-card.is-highlighted {
+  transform: scale(1.04);
+}
+
+.mini-card strong {
+  font-size: 0.76rem;
+}
+
+.mini-card span,
+.mini-card small {
+  color: #52606d;
+  font-size: 0.72rem;
+  font-weight: 800;
 }
 
 .result-card {

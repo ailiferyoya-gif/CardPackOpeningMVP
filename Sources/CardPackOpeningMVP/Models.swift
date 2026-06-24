@@ -80,9 +80,13 @@ struct CardPack: Identifiable, Hashable {
 }
 
 enum OpeningStage: Hashable {
-    case ready
+    case idle
+    case charging
+    case readyToTear
+    case tearing(progress: CGFloat)
     case opening
-    case results
+    case revealing(index: Int)
+    case completed
 }
 
 extension Card {
