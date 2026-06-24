@@ -3,8 +3,8 @@ import SwiftUI
 enum CardRarity: String, CaseIterable, Identifiable {
     case common = "Common"
     case rare = "Rare"
-    case epic = "Epic"
-    case legendary = "Legendary"
+    case superRare = "Super Rare"
+    case ultraRare = "Ultra Rare"
 
     var id: String { rawValue }
 
@@ -14,10 +14,10 @@ enum CardRarity: String, CaseIterable, Identifiable {
             "Common"
         case .rare:
             "Rare"
-        case .epic:
-            "Epic"
-        case .legendary:
-            "Legendary"
+        case .superRare:
+            "Super Rare"
+        case .ultraRare:
+            "Ultra Rare"
         }
     }
 
@@ -27,10 +27,10 @@ enum CardRarity: String, CaseIterable, Identifiable {
             .gray
         case .rare:
             .blue
-        case .epic:
-            .purple
-        case .legendary:
-            .orange
+        case .superRare:
+            .yellow
+        case .ultraRare:
+            .pink
         }
     }
 }
@@ -97,10 +97,10 @@ extension Card {
         Card(name: "Amber Archer", rarity: .rare, power: 230, flavorText: "Every shot carries a little sunrise."),
         Card(name: "Moonlit Sage", rarity: .rare, power: 260, flavorText: "Reads tomorrow from a silver cup."),
         Card(name: "Crimson Duelist", rarity: .rare, power: 280, flavorText: "Bows once, then ends the argument."),
-        Card(name: "Storm Chimera", rarity: .epic, power: 420, flavorText: "Three roars, one terrible answer."),
-        Card(name: "Crystal Oracle", rarity: .epic, power: 450, flavorText: "The future reflects whoever dares look."),
-        Card(name: "Sunforged Dragon", rarity: .legendary, power: 720, flavorText: "Its wings remember the first flame."),
-        Card(name: "Eclipse Empress", rarity: .legendary, power: 760, flavorText: "Night and day negotiate at her feet.")
+        Card(name: "Storm Chimera", rarity: .superRare, power: 420, flavorText: "Three roars, one terrible answer."),
+        Card(name: "Crystal Oracle", rarity: .superRare, power: 450, flavorText: "The future reflects whoever dares look."),
+        Card(name: "Sunforged Dragon", rarity: .ultraRare, power: 720, flavorText: "Its wings remember the first flame."),
+        Card(name: "Eclipse Empress", rarity: .ultraRare, power: 760, flavorText: "Night and day negotiate at her feet.")
     ]
 }
 

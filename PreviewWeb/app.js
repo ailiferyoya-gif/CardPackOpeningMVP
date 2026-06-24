@@ -5,10 +5,10 @@ const cards = [
   { name: "Amber Archer", rarity: "Rare", power: 230, flavorText: "Every shot carries a little sunrise." },
   { name: "Moonlit Sage", rarity: "Rare", power: 260, flavorText: "Reads tomorrow from a silver cup." },
   { name: "Crimson Duelist", rarity: "Rare", power: 280, flavorText: "Bows once, then ends the argument." },
-  { name: "Storm Chimera", rarity: "Epic", power: 420, flavorText: "Three roars, one terrible answer." },
-  { name: "Crystal Oracle", rarity: "Epic", power: 450, flavorText: "The future reflects whoever dares look." },
-  { name: "Sunforged Dragon", rarity: "Legendary", power: 720, flavorText: "Its wings remember the first flame." },
-  { name: "Eclipse Empress", rarity: "Legendary", power: 760, flavorText: "Night and day negotiate at her feet." }
+  { name: "Storm Chimera", rarity: "Super Rare", power: 420, flavorText: "Three roars, one terrible answer." },
+  { name: "Crystal Oracle", rarity: "Super Rare", power: 450, flavorText: "The future reflects whoever dares look." },
+  { name: "Sunforged Dragon", rarity: "Ultra Rare", power: 720, flavorText: "Its wings remember the first flame." },
+  { name: "Eclipse Empress", rarity: "Ultra Rare", power: 760, flavorText: "Night and day negotiate at her feet." }
 ];
 
 const packs = [
@@ -27,8 +27,8 @@ const packs = [
 const rarityColors = {
   Common: { background: "#e5e7eb", color: "#374151" },
   Rare: { background: "#dbeafe", color: "#1d4ed8" },
-  Epic: { background: "#f3e8ff", color: "#7e22ce" },
-  Legendary: { background: "#ffedd5", color: "#c2410c" }
+  "Super Rare": { background: "#fef3c7", color: "#b45309" },
+  "Ultra Rare": { background: "#fce7f3", color: "#be185d" }
 };
 
 let selectedPack = packs[0];
