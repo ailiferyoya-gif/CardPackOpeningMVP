@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Card Pack Opening MVP Preview</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="top-bar">
+        <p class="eyebrow">SwiftUI MVP Browser Preview</p>
+        <h1>Card Packs</h1>
+      </header>
+
+      <section id="pack-selection" class="screen is-active" aria-labelledby="pack-selection-title">
+        <h2 id="pack-selection-title">Select a pack</h2>
+        <div id="pack-list" class="pack-list"></div>
+      </section>
+
+      <section id="pack-opening" class="screen" aria-labelledby="pack-opening-title">
+        <button class="back-button" type="button" data-back-to="pack-selection">Back</button>
+        <div class="opening-panel">
+          <div class="pack-art" aria-hidden="true">*</div>
+          <p class="eyebrow">Opening</p>
+          <h2 id="pack-opening-title"></h2>
+          <p id="pack-opening-subtitle" class="muted"></p>
+          <button id="open-pack-button" class="primary-button" type="button">Open Pack</button>
+        </div>
+      </section>
+
+      <section id="results" class="screen" aria-labelledby="results-title">
+        <button class="back-button" type="button" data-back-to="pack-selection">Pack List</button>
+        <h2 id="results-title">Results</h2>
+        <div id="result-list" class="result-list"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

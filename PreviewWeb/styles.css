@@ -1,0 +1,228 @@
+:root {
+  color-scheme: light;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f7f4ee;
+  color: #1f2933;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(145deg, rgba(65, 88, 208, 0.14), transparent 34%),
+    linear-gradient(315deg, rgba(252, 176, 69, 0.2), transparent 38%),
+    #f7f4ee;
+}
+
+button {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(100%, 760px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 24px 18px 40px;
+}
+
+.top-bar {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #52606d;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  overflow-wrap: break-word;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.4rem;
+  line-height: 1.05;
+}
+
+h2 {
+  margin: 0 0 16px;
+  font-size: 1.45rem;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.is-active {
+  display: block;
+}
+
+.pack-list,
+.result-list {
+  display: grid;
+  gap: 12px;
+}
+
+.pack-card,
+.result-card {
+  width: 100%;
+  border: 1px solid rgba(31, 41, 51, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 10px 28px rgba(31, 41, 51, 0.08);
+}
+
+.pack-card {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pack-card:focus-visible,
+.primary-button:focus-visible,
+.back-button:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
+.pack-thumb {
+  display: grid;
+  width: 64px;
+  height: 88px;
+  place-items: center;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #4f46e5, #21b6a8);
+  color: #ffffff;
+  font-size: 1.7rem;
+  font-weight: 900;
+}
+
+.pack-card h3,
+.result-card h3 {
+  margin: 0 0 5px;
+  font-size: 1.05rem;
+}
+
+.pack-card p,
+.result-card p {
+  margin: 0;
+  color: #52606d;
+  line-height: 1.45;
+}
+
+.chevron {
+  color: #829ab1;
+  font-size: 1.5rem;
+}
+
+.opening-panel {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 42px 18px;
+  text-align: center;
+}
+
+.pack-art {
+  display: grid;
+  width: 146px;
+  height: 190px;
+  place-items: center;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #4338ca, #14b8a6);
+  color: #ffffff;
+  font-size: 3rem;
+  box-shadow: 0 20px 38px rgba(67, 56, 202, 0.24);
+}
+
+.muted {
+  max-width: 34rem;
+  color: #52606d;
+}
+
+.primary-button,
+.back-button {
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.primary-button {
+  min-height: 48px;
+  padding: 0 22px;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.back-button {
+  margin-bottom: 18px;
+  padding: 9px 12px;
+  background: rgba(31, 41, 51, 0.08);
+  color: #1f2933;
+  font-weight: 700;
+}
+
+.result-card {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 14px;
+  padding: 14px;
+}
+
+.rarity-badge {
+  display: grid;
+  min-height: 96px;
+  place-items: center;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.result-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.power {
+  font-weight: 900;
+}
+
+@media (max-width: 430px) {
+  .app-shell {
+    padding-inline: 14px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .pack-card {
+    grid-template-columns: 58px 1fr auto;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .pack-thumb {
+    width: 54px;
+    height: 74px;
+  }
+}
