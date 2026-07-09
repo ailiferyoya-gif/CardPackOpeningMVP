@@ -289,7 +289,7 @@ private final class RarityParticleScene: SKScene {
 
     private func addStarburst(at origin: CGPoint, color: SKColor) {
         let node = SKShapeNode()
-        var path = CGMutablePath()
+        let path = CGMutablePath()
         for index in 0..<16 {
             let angle = CGFloat(index) * (.pi * 2 / 16)
             let inner = CGPoint(x: cos(angle) * 22, y: sin(angle) * 22)
@@ -338,11 +338,11 @@ extension CardRarity {
         }
 
         switch self {
-        case .normal: 80
-        case .rare: 130
-        case .superRare: 260
-        case .ultraRare: 460
-        case .ultimateRare: 1_150
+        case .normal: return 80
+        case .rare: return 130
+        case .superRare: return 260
+        case .ultraRare: return 460
+        case .ultimateRare: return 1_150
         }
     }
 
@@ -350,11 +350,11 @@ extension CardRarity {
         if reduceMotion { return 0.07 }
 
         switch self {
-        case .normal: 0.2
-        case .rare: 0.23
-        case .superRare: 0.27
-        case .ultraRare: 0.31
-        case .ultimateRare: 0.4
+        case .normal: return 0.2
+        case .rare: return 0.23
+        case .superRare: return 0.27
+        case .ultraRare: return 0.31
+        case .ultimateRare: return 0.4
         }
     }
 
@@ -362,11 +362,11 @@ extension CardRarity {
         if reduceMotion { return 220 }
 
         switch self {
-        case .normal: 420
-        case .rare: 540
-        case .superRare: 720
-        case .ultraRare: 930
-        case .ultimateRare: 1_350
+        case .normal: return 420
+        case .rare: return 540
+        case .superRare: return 720
+        case .ultraRare: return 930
+        case .ultimateRare: return 1_350
         }
     }
 
