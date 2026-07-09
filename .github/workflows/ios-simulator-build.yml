@@ -1,0 +1,36 @@
+name: iOS Simulator Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-simulator-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: xcodebuild -version
+
+      - name: Inspect package schemes
+        run: xcodebuild -list
+
+      - name: Build SwiftUI package for iOS Simulator
+        run: >-
+          xcodebuild
+          -scheme CardPackOpeningMVP
+          -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO
+          build

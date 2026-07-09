@@ -1,36 +1,37 @@
 import SwiftUI
 
-enum CardRarity: String, CaseIterable, Identifiable {
-    case common = "Common"
+enum CardRarity: String, CaseIterable, Identifiable, Hashable {
+    case normal = "Normal"
     case rare = "Rare"
     case superRare = "Super Rare"
     case ultraRare = "Ultra Rare"
+    case ultimateRare = "Ultimate Rare"
 
     var id: String { rawValue }
-
-    var displayName: String {
-        switch self {
-        case .common:
-            "Common"
-        case .rare:
-            "Rare"
-        case .superRare:
-            "Super Rare"
-        case .ultraRare:
-            "Ultra Rare"
-        }
-    }
+    var displayName: String { rawValue }
 
     var tint: Color {
         switch self {
-        case .common:
-            .gray
+        case .normal:
+            Color(red: 0.55, green: 0.61, blue: 0.68)
         case .rare:
-            .blue
+            Color(red: 0.24, green: 0.68, blue: 1)
         case .superRare:
-            .yellow
+            Color(red: 1, green: 0.78, blue: 0.2)
         case .ultraRare:
-            .pink
+            Color(red: 0.98, green: 0.35, blue: 0.68)
+        case .ultimateRare:
+            Color(red: 0.72, green: 0.46, blue: 1)
+        }
+    }
+
+    var shortName: String {
+        switch self {
+        case .normal: "N"
+        case .rare: "R"
+        case .superRare: "SR"
+        case .ultraRare: "UR"
+        case .ultimateRare: "UTR"
         }
     }
 }
@@ -41,19 +42,22 @@ struct Card: Identifiable, Hashable {
     let rarity: CardRarity
     let power: Int
     let flavorText: String
+    let artAssetName: String
 
     init(
         id: UUID = UUID(),
         name: String,
         rarity: CardRarity,
         power: Int,
-        flavorText: String
+        flavorText: String,
+        artAssetName: String
     ) {
         self.id = id
         self.name = name
         self.rarity = rarity
         self.power = power
         self.flavorText = flavorText
+        self.artAssetName = artAssetName
     }
 }
 
@@ -85,36 +89,75 @@ enum OpeningStage: Hashable {
     case readyToTear
     case tearing(progress: CGFloat)
     case opening
-    case revealing(index: Int)
+    case revealing(index: Int, phase: RevealPhase)
     case completed
 }
 
+enum RevealPhase: Hashable {
+    case waiting
+    case buildup
+    case flippingToEdge
+    case flippingToFace
+    case resting
+}
+
 extension Card {
-    static let dummyCards: [Card] = [
-        Card(name: "Spark Squire", rarity: .common, power: 120, flavorText: "A bright first step into the arena."),
-        Card(name: "Moss Guard", rarity: .common, power: 140, flavorText: "Stands firm when the field gets loud."),
-        Card(name: "River Scout", rarity: .common, power: 150, flavorText: "Finds a path before the map catches up."),
-        Card(name: "Amber Archer", rarity: .rare, power: 230, flavorText: "Every shot carries a little sunrise."),
-        Card(name: "Moonlit Sage", rarity: .rare, power: 260, flavorText: "Reads tomorrow from a silver cup."),
-        Card(name: "Crimson Duelist", rarity: .rare, power: 280, flavorText: "Bows once, then ends the argument."),
-        Card(name: "Storm Chimera", rarity: .superRare, power: 420, flavorText: "Three roars, one terrible answer."),
-        Card(name: "Crystal Oracle", rarity: .superRare, power: 450, flavorText: "The future reflects whoever dares look."),
-        Card(name: "Sunforged Dragon", rarity: .ultraRare, power: 720, flavorText: "Its wings remember the first flame."),
-        Card(name: "Eclipse Empress", rarity: .ultraRare, power: 760, flavorText: "Night and day negotiate at her feet.")
+    static let showcaseCards: [Card] = [
+        Card(
+            name: "Flint Imp",
+            rarity: .normal,
+            power: 1200,
+            flavorText: "A stone-armored goblin knight who never retreats from a larger foe.",
+            artAssetName: "normal"
+        ),
+        Card(
+            name: "Azure Gale Wyvern",
+            rarity: .rare,
+            power: 1650,
+            flavorText: "Blue lightning gathers wherever its wings split the midnight wind.",
+            artAssetName: "rare"
+        ),
+        Card(
+            name: "Selene of the Moon Mirror",
+            rarity: .superRare,
+            power: 2100,
+            flavorText: "Her silver-blue blade reflects spells beneath an unbroken moon.",
+            artAssetName: "super-rare"
+        ),
+        Card(
+            name: "Noctis Drakon",
+            rarity: .ultraRare,
+            power: 2800,
+            flavorText: "An obsidian dragon emperor crowned by the power of a captive sun.",
+            artAssetName: "ultra-rare"
+        ),
+        Card(
+            name: "Astra Nova",
+            rarity: .ultimateRare,
+            power: 3600,
+            flavorText: "A white-and-black machine deity awakened at the edge of the cosmos.",
+            artAssetName: "ultimate-rare"
+        )
     ]
+
+    static let dummyCards = showcaseCards
 }
 
 extension CardPack {
+    static let showcasePack = CardPack(
+        name: "Celestial Rift",
+        subtitle: "A guaranteed showcase: one card from every rarity.",
+        cards: Card.showcaseCards,
+        cardsPerOpening: CardRarity.allCases.count
+    )
+
     static let dummyPacks: [CardPack] = [
-        CardPack(
-            name: "Starter Pack",
-            subtitle: "A balanced 5-card opening for the first MVP test.",
-            cards: Card.dummyCards
-        ),
-        CardPack(
-            name: "Rare Boost Pack",
-            subtitle: "A simple local pack with the same dummy pool.",
-            cards: Card.dummyCards.shuffled()
-        )
+        showcasePack
     ]
+
+    var guaranteedShowcaseCards: [Card] {
+        CardRarity.allCases.compactMap { rarity in
+            cards.first { $0.rarity == rarity }
+        }
+    }
 }

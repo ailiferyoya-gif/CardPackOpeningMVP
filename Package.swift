@@ -13,7 +13,10 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "CardPackOpeningMVP",
-            path: "Sources/CardPackOpeningMVP"
+            path: "Sources/CardPackOpeningMVP",
+            resources: [
+                .process("Resources")
+            ]
         )
     ]
 )
