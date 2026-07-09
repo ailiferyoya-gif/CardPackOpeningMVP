@@ -5,6 +5,7 @@
 - Primary path: `D:\Codex\CardPackOpeningMVP`
 - Repository: `https://github.com/ailiferyoya-gif/CardPackOpeningMVP`
 - Pages: `https://ailiferyoya-gif.github.io/CardPackOpeningMVP/`
+- Verified source commit: `ab90e5d8cb976b5615a41edd767e36e215caf7b5`
 - Type: Swift Package / SwiftUI iOS 17 MVP plus static browser edition
 - Pre-change backup: `D:\Codex\backups\CardPackOpeningMVP-before-sol-ultra-20260710-071108`
 
@@ -35,14 +36,14 @@
 - All final PNGs are transparent 768×1152 images; all WebP copies are transparent 640×960 images.
 - All WAV files are mono PCM16 at 44.1 kHz with zero clipped samples.
 - `git diff --check` passes and the Swift source received an independent static API/state review.
+- GitHub Actions `iOS Simulator Build` run `29058549999` passed with Xcode 16.4 on macOS 15 for commit `ab90e5d`.
+- GitHub Pages run `29058548947` passed for commit `ab90e5d`, and the live HTML, final JavaScript, Ultimate image, and Ultimate sound return HTTP 200.
 
-## Remaining verification
+## Optional hardware verification
 
-- Confirm the macOS `iOS Simulator Build` GitHub Actions run after publishing.
-- Confirm the final GitHub Pages deployment and direct asset freshness after publishing.
 - Optional hardware pass: tune speaker balance and haptic intensity on a physical iPhone.
 - Optional Safari pass: recheck the complete flow on physical iOS Safari. The current browser run used Edge on Windows.
 
 ## Next action if work resumes
 
-Read this file first, then inspect the latest GitHub Actions runs. If native CI fails, fix the exact Xcode diagnostic before changing animation behavior. If Pages looks stale while the repository files are current, compare the versioned `PreviewWeb/styles.css` and `PreviewWeb/app.js` responses before applying another cache-busting suffix.
+Read this file first, then inspect any GitHub Actions run newer than `29058549999`. If a future native CI run fails, fix the exact Xcode diagnostic before changing animation behavior. If Pages looks stale while the repository files are current, compare the versioned `PreviewWeb/styles.css` and `PreviewWeb/app.js` responses before applying another cache-busting suffix.

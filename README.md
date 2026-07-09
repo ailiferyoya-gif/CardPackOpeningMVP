@@ -62,4 +62,4 @@ The native edition uses SwiftUI, SpriteKit particle layers, AVFoundation sound p
 
 ## Verification
 
-The browser flow is syntax-checked and exercised at a 320×740 viewport through the complete five-card opening. Native compilation is delegated to the repository's macOS GitHub Actions workflow because this Windows workspace does not include Xcode.
+The browser flow is syntax-checked and exercised at a 320×740 viewport through the complete five-card opening. The native package also passes the repository's Xcode 16.4 iOS Simulator build workflow on macOS 15. This verifies compilation; installation and launch of a signed application container remain a separate Xcode step.
